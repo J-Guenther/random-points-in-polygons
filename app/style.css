@@ -1,11 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body {
     font-family: 'Roboto', serif;
     color: var(--text-color);
     margin: 0;
-    --header-color: #1F1F1F;
-    --sidebar-color: #1F1F1F;
-    --text-color: #03DAC5;
+    --header-color: #2E303D;
+    --sidebar-color: #2E303D;
+    --text-color: #EAEAEB;
+    background: repeating-linear-gradient(
+            45deg,
+            #2E303D,
+            #2E303D 300px,
+            #2B2C38 10px,
+            #2B2C38 1080px
+    );
 }
 
 .main-container {
@@ -13,26 +21,80 @@ body {
     flex-direction: column;
     height: 100vh;
 }
+
 header {
-    background-color: var(--header-color);
+    /*background-color: var(--header-color);*/
     padding: 2em;
 }
+
 header .title {
     font-size: 28px;
+    text-align: center;
 }
+
 main {
     display: flex;
     flex-grow: 1;
 }
+
 .left-bar {
     width: 20em;
-    background-color: var(--sidebar-color);
+    /*background-color: var(--sidebar-color);*/
 }
+
 .map-container {
     flex-grow: 1;
 }
+
 footer {
     background-color: var(--header-color);
     padding: 1em;
 }
 
+#areaContainer {
+    max-height: 300px;
+    overflow: scroll;
+    overflow-x: hidden;
+    background-color: #1D1D26;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    text-align: center;
+}
+
+li:hover {
+    color: #6989FF;
+    cursor: pointer;
+}
+
+.selectedContainer {
+    padding-top: 30px;
+}
+
+#selectionDisplay {
+    color: #6989FF;
+}
+
+button {
+    border: 0;
+    outline: none;
+    background-color: #313340;
+    color: #6989FF;
+    box-shadow: 0 .25rem 1.5rem rgba(0,0,0,.15);
+    padding: 20px;
+}
+
+button:hover {
+    color: #2B2C38;
+    background-color: #63DE17;
+    cursor: pointer;
+}
+
+.scrollable-element {
+    scrollbar-color: #494f5f #2E303D;
+}
