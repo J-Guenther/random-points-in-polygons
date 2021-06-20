@@ -11,6 +11,7 @@ import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
 import Select from 'ol/interaction/Select';
 import {borders} from './data';
+import { Triangulation } from './earClipping';
 
 const highlightStyle = new Style({
     fill: new Fill({
@@ -107,3 +108,5 @@ features.forEach(feature => {
         li.innerHTML += feature.get('GEN');
     }
 });
+
+new Triangulation("test");

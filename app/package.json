@@ -1,6 +1,7 @@
 {
   "name": "accessible",
   "dependencies": {
+    "@datastructures-js/doubly-linked-list": "^3.0.1",
     "ol": "6.5.0"
   },
   "devDependencies": {
