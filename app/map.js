@@ -52,6 +52,9 @@ const map = new Map({
 
 view.fit(vectorSource.getExtent());
 
+const button = document.getElementById('addButton');
+button.disabled = true;
+
 const selectionDisplay = document.getElementById('selectionDisplay');
 
 let selected = null;
@@ -62,7 +65,14 @@ map.addInteraction(selectSingleClick);
 selectSingleClick.on('select', function (e) {
     selected?.setStyle(undefined);
     selected = e.selected[0];
-    selectionDisplay.innerHTML = selected.get('GEN');
+    if (selected) {
+        selectionDisplay.innerHTML = selected.get('GEN');
+        button.disabled = false;
+    } else {
+        selectionDisplay.innerHTML = '';
+        button.disabled = true;
+    }
+
 });
 
 let hover = null;
@@ -103,10 +113,18 @@ features.forEach(feature => {
             feature.setStyle(highlightStyle);
             selected = feature;
             selectionDisplay.innerHTML = selected.get('GEN');
+            button.disabled = false
         });
         ul.appendChild(li);
         li.innerHTML += feature.get('GEN');
     }
 });
 
-new Triangulation("test");
+
+
+
+button.addEventListener('click', () => {
+    new Triangulation(selected);
+});
+
+

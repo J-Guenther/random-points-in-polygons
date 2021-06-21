@@ -7,9 +7,12 @@ export class Triangulation {
     triangles;
 
     constructor(polygon) {
-        // this.vertices = polygon.getCoordinates();
         this.vertices = new DoublyLinkedList();
-
+        if (polygon.getGeometry().getType() === 'MultiPolygon') {
+            polygon.getGeometry().getCoordinates()[0][0].forEach(coord => this.vertices.insertLast(coord));
+        } else {
+            polygon.getGeometry().getCoordinates()[0].forEach(coord => this.vertices.insertLast(coord));
+        }
     }
 
     identifyEars() {

@@ -95,6 +95,15 @@ button:hover {
     cursor: pointer;
 }
 
+button:disabled {
+    color: grey;
+}
+
+button:disabled:hover {
+    background-color: #313340;
+    cursor: auto;
+}
+
 .scrollable-element {
     scrollbar-color: #494f5f #2E303D;
 }
