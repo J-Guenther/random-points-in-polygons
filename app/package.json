@@ -2,6 +2,8 @@
   "name": "accessible",
   "dependencies": {
     "@datastructures-js/doubly-linked-list": "^3.0.1",
+    "earcut": "^2.2.2",
+    "euklid": "git://github.com/J-Guenther/euklid.git",
     "ol": "6.5.0"
   },
   "devDependencies": {

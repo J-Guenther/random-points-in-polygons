@@ -1,4 +1,5 @@
 import { DoublyLinkedList } from '@datastructures-js/doubly-linked-list';
+import {sayHello} from "euklid";
 
 export class Triangulation {
 
@@ -13,6 +14,8 @@ export class Triangulation {
         } else {
             polygon.getGeometry().getCoordinates()[0].forEach(coord => this.vertices.insertLast(coord));
         }
+        console.log(this.vertices);
+        sayHello();
     }
 
     identifyEars() {

@@ -11,7 +11,8 @@ import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
 import Select from 'ol/interaction/Select';
 import {borders} from './data';
-import { Triangulation } from './earClipping';
+import earcut from 'earcut';
+import Point from 'ol/geom/Point';
 
 const highlightStyle = new Style({
     fill: new Fill({
@@ -34,6 +35,11 @@ const vectorLayer = new VectorLayer({
     source: vectorSource
 });
 
+const pointSource = new VectorSource({});
+const pointLayer = new VectorLayer({
+    source: pointSource
+});
+
 const view = new View({
     center: [0, 0],
     zoom: 1,
@@ -45,7 +51,8 @@ const map = new Map({
         new TileLayer({
             source: new OSM(),
         }),
-        vectorLayer
+        vectorLayer,
+        pointLayer
     ],
     target: 'ol-map'
 });
@@ -121,10 +128,49 @@ features.forEach(feature => {
 });
 
 
-
+function sliceIntoChunks(arr, chunkSize) {
+    const res = [];
+    for (let i = 0; i < arr.length; i += chunkSize) {
+        const chunk = arr.slice(i, i + chunkSize);
+        res.push(chunk);
+    }
+    return res;
+}
 
 button.addEventListener('click', () => {
-    new Triangulation(selected);
+    let data;
+    if (selected.getGeometry().getType() === 'MultiPolygon') {
+        data = earcut.flatten(selected.getGeometry().getCoordinates()[0]);
+    } else {
+        data = earcut.flatten(selected.getGeometry().getCoordinates());
+    }
+    const triangles = earcut(data.vertices, data.holes, data.dimensions);
+    const slices = sliceIntoChunks(triangles, 6);
+    console.log(slices)
+    const triangleIndecies = slices[Math.floor(Math.random() * slices.length)];
+    console.log(triangleIndecies)
+    const triangle = [
+        data.vertices[triangleIndecies[0]],
+        data.vertices[triangleIndecies[1]],
+        data.vertices[triangleIndecies[2]],
+        data.vertices[triangleIndecies[3]],
+        data.vertices[triangleIndecies[4]],
+        data.vertices[triangleIndecies[5]]
+    ]
+
+    const r1 = Math.random();
+    const r2 = Math.random();
+    const x = (1 - Math.sqrt(r1)) * triangle[0] + (Math.sqrt(r1) * (1 - r2)) * triangle[2] + (Math.sqrt(r1) * r2) * triangle[4];
+    const y = (1 - Math.sqrt(r1)) * triangle[1] + (Math.sqrt(r1) * (1 - r2)) * triangle[3] + (Math.sqrt(r1) * r2) * triangle[5];
+
+    const point = new Feature({
+            geometry: new Point([x, y])
+        }
+    );
+    pointSource.addFeature(point);
+    console.log(point);
+    console.log(x);
+    console.log(y);
 });
 
 
