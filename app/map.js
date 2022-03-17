@@ -139,24 +139,32 @@ function sliceIntoChunks(arr, chunkSize) {
 
 button.addEventListener('click', () => {
     let data;
+    let coordinates;
     if (selected.getGeometry().getType() === 'MultiPolygon') {
-        data = earcut.flatten(selected.getGeometry().getCoordinates()[0]);
+        coordinates = selected.getGeometry().getCoordinates()[0];
     } else {
-        data = earcut.flatten(selected.getGeometry().getCoordinates());
+        coordinates = selected.getGeometry().getCoordinates();
     }
+    console.log(coordinates);
+    console.log(coordinates.length);
+    data = earcut.flatten(coordinates);
+    console.log(data);
     const triangles = earcut(data.vertices, data.holes, data.dimensions);
-    const slices = sliceIntoChunks(triangles, 6);
+    console.log(Math.max(...triangles));
+    const slices = sliceIntoChunks(triangles, 3);
     console.log(slices)
+    // TODO Dreiecke nach Flächengröße gewichten
     const triangleIndecies = slices[Math.floor(Math.random() * slices.length)];
     console.log(triangleIndecies)
     const triangle = [
-        data.vertices[triangleIndecies[0]],
-        data.vertices[triangleIndecies[1]],
-        data.vertices[triangleIndecies[2]],
-        data.vertices[triangleIndecies[3]],
-        data.vertices[triangleIndecies[4]],
-        data.vertices[triangleIndecies[5]]
+        coordinates[0][triangleIndecies[0]][0],
+        coordinates[0][triangleIndecies[0]][1],
+        coordinates[0][triangleIndecies[1]][0],
+        coordinates[0][triangleIndecies[1]][1],
+        coordinates[0][triangleIndecies[2]][0],
+        coordinates[0][triangleIndecies[2]][1]
     ]
+    console.log(triangle);
 
     const r1 = Math.random();
     const r2 = Math.random();
